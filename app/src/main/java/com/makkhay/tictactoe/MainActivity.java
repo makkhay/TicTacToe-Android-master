@@ -196,8 +196,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtScore.setText(scorePlayer1 + " - " + scorePlayer2);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("You Winner is : " + (!isActivePlayer ? namePlayer1 : namePlayer2) + "!")
-            .setMessage("do you want to replay ?")
+            builder.setTitle("The Winner is : " + (!isActivePlayer ? namePlayer1 : namePlayer2) + "!")
+            .setMessage("Do you want to play again ?")
             .setCancelable(false)
             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
@@ -226,8 +226,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        Log.d(TAG, "outside of if is called: ");
-
         // if all  buttons are pressed and a winner is not detected then draw.
         for(int item : tablePlayer) {
             if(item == 0)
@@ -236,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Draw")
-                .setMessage("do you want to replay ?")
+                .setMessage("do you want to play again ?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -294,6 +292,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tablePlayer[i] = 0;
         txtPlayer.setText(namePlayer1);
         txtPlayer.setTextColor(Color.parseColor(COLOR_PLAYER_1));
+
+        isActivePlayer = true;
     }
 
 }
