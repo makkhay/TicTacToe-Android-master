@@ -11,6 +11,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,11 +28,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int scorePlayer1 = 0,
             scorePlayer2 = 0;
 
-    // Active Player
-    private boolean isPlayer1 = true;
+    // Active Player, true means player one and false means player 2
+    private boolean isActivePlayer = true;
 
     private final static String COLOR_PLAYER_1 = "#2196f3";
-    private final static String COLOR_PLAYER_2 = "#03C9A9";
+    private final static String COLOR_PLAYER_2 = "#f50057";
+
+    private static String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,55 +89,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(tablePlayer[0] != 0) {
                     return;
                 }
-                tablePlayer[0]= isPlayer1 ? 1 : 2;
+                tablePlayer[0]= isActivePlayer ? 1 : 2;
+//                if(isActivePlayer){
+//                    tablePlayer[0] = 1;
+//                }else {
+//                    tablePlayer[0] = 2;
+//                }
+
             } break;
             case R.id.btn2: {
                 if(tablePlayer[1] != 0) {
                     return;
                 }
-                tablePlayer[1]= isPlayer1 ? 1 : 2;
+                tablePlayer[1]= isActivePlayer ? 1 : 2;
             } break;
             case R.id.btn3: {
                 if(tablePlayer[2] != 0) {
                     return;
                 }
-                tablePlayer[2]= isPlayer1 ? 1 : 2;
+                tablePlayer[2]= isActivePlayer ? 1 : 2;
             } break;
             case R.id.btn4: {
                 if(tablePlayer[3] != 0) {
                     return;
                 }
-                tablePlayer[3]= isPlayer1 ? 1 : 2;
+                tablePlayer[3]= isActivePlayer ? 1 : 2;
             } break;
             case R.id.btn5: {
                 if(tablePlayer[4] != 0) {
                     return;
                 }
-                tablePlayer[4]= isPlayer1 ? 1 : 2;
+                tablePlayer[4]= isActivePlayer ? 1 : 2;
             } break;
             case R.id.btn6: {
                 if(tablePlayer[5] != 0) {
                     return;
                 }
-                tablePlayer[5]= isPlayer1 ? 1 : 2;
+                tablePlayer[5]= isActivePlayer ? 1 : 2;
             } break;
             case R.id.btn7: {
                 if(tablePlayer[6] != 0) {
                     return;
                 }
-                tablePlayer[6]= isPlayer1 ? 1 : 2;
+                tablePlayer[6]= isActivePlayer ? 1 : 2;
             } break;
             case R.id.btn8: {
                 if(tablePlayer[7] != 0) {
                     return;
                 }
-                tablePlayer[7]= isPlayer1 ? 1 : 2;
+                tablePlayer[7]= isActivePlayer ? 1 : 2;
             } break;
             case R.id.btn9: {
                 if(tablePlayer[8] != 0) {
                     return;
                 }
-                tablePlayer[8]= isPlayer1 ? 1 : 2;
+                tablePlayer[8]= isActivePlayer ? 1 : 2;
             } break;
         }
         changeText((Button) v);
@@ -142,7 +151,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void changeText(Button selectedBtn) {
-        if(isPlayer1) {
+
+        if(isActivePlayer) {
             selectedBtn.setText("X");
             selectedBtn.setBackgroundColor(Color.parseColor(COLOR_PLAYER_1));
             txtPlayer.setText(namePlayer2);
@@ -153,10 +163,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             txtPlayer.setText(namePlayer1);
             txtPlayer.setTextColor(Color.parseColor(COLOR_PLAYER_1));
         }
-        isPlayer1 = !isPlayer1;
+
+        // will alternate with true and false
+        isActivePlayer = !isActivePlayer;
+
     }
 
     private void checkWinner() {
+        /**
+         * Player 1 will display x, which is also denoted by true, we are assigning a value of 1 if a grid is pressed or selected
+         * Player 2 will display O, which is also denoted by false, we are assigning a value of 2 if a grid is selected
+         *
+         *
+         * The first line of algorithm down below is;  we are comparing the  value of 1st and 2nd grid, and 2nd and 4rd grid.
+         * If both cases are true then the winner is declared.
+         */
+        // winning possibilities are 0,1,2 ; 3,4,5; 6,7,8; 0,3,6; 1, 4, 7;  2,5,8; 0, 4, 8; 2,4,6
         if(((tablePlayer[0] == tablePlayer[1]) && (tablePlayer[1] == tablePlayer[2])) && (tablePlayer[2] != 0) ||
             (tablePlayer[3] == tablePlayer[4]) && (tablePlayer[4] == tablePlayer[5]) && (tablePlayer[5] != 0) ||
             (tablePlayer[6] == tablePlayer[7] && (tablePlayer[7] == tablePlayer[8])) && (tablePlayer[8] != 0) ||
@@ -167,14 +189,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             (tablePlayer[2] == tablePlayer[4] && (tablePlayer[4] == tablePlayer[6]) && (tablePlayer[6] != 0))
                 ) {
 
-            if(!isPlayer1)
+            if(!isActivePlayer)
                 scorePlayer1++;
             else
                 scorePlayer2++;
             txtScore.setText(scorePlayer1 + " - " + scorePlayer2);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("You Winner is : " + (!isPlayer1? namePlayer1 : namePlayer2) + "!")
+            builder.setTitle("You Winner is : " + (!isActivePlayer ? namePlayer1 : namePlayer2) + "!")
             .setMessage("do you want to replay ?")
             .setCancelable(false)
             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -204,6 +226,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
+        Log.d(TAG, "outside of if is called: ");
+
+        // if all  buttons are pressed and a winner is not detected then draw.
         for(int item : tablePlayer) {
             if(item == 0)
                 return;

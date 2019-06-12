@@ -47,7 +47,7 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#FFF"
-            android:text="Player : "/>
+            android:text="Turn:"/>
         <TextView
             android:id="@+id/txtPlayer"
             android:layout_width="wrap_content"
