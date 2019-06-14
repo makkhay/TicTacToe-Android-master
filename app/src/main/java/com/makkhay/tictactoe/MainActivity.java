@@ -17,10 +17,10 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView txtPlayer1, txtPlayer2, txtScore;
+    private TextView mPlayerOneTV, mPlayerTwoTV, mTextScore;
 
-    private TextView txtPlayer;
-    private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9;
+    private TextView mCurrentPlayer;
+    private Button mBtn1, mBtn2, mBtn3, mBtn4, mBtn5, mBtn6, mBtn7, mBtn8, mBtn9;
 
     private static String namePlayer1, namePlayer2;
     private int[] tablePlayer = {0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -48,37 +48,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addListenerToButton();
     }
 
+    /**
+     * init view components
+     */
     public void initViews() {
-        btn1 = (Button) findViewById(R.id.btn1);
-        btn2 = (Button) findViewById(R.id.btn2);
-        btn3 = (Button) findViewById(R.id.btn3);
-        btn4 = (Button) findViewById(R.id.btn4);
-        btn5 = (Button) findViewById(R.id.btn5);
-        btn6 = (Button) findViewById(R.id.btn6);
-        btn7 = (Button) findViewById(R.id.btn7);
-        btn8 = (Button) findViewById(R.id.btn8);
-        btn9 = (Button) findViewById(R.id.btn9);
+        mBtn1 = (Button) findViewById(R.id.btn1);
+        mBtn2 = (Button) findViewById(R.id.btn2);
+        mBtn3 = (Button) findViewById(R.id.btn3);
+        mBtn4 = (Button) findViewById(R.id.btn4);
+        mBtn5 = (Button) findViewById(R.id.btn5);
+        mBtn6 = (Button) findViewById(R.id.btn6);
+        mBtn7 = (Button) findViewById(R.id.btn7);
+        mBtn8 = (Button) findViewById(R.id.btn8);
+        mBtn9 = (Button) findViewById(R.id.btn9);
 
-        txtScore = (TextView) findViewById(R.id.txtScore);
-        txtPlayer1 = (TextView) findViewById(R.id.txtPlayer1);
-        txtPlayer2 = (TextView) findViewById(R.id.txtPlayer2);
-        txtPlayer = (TextView) findViewById(R.id.txtPlayer);
+        mTextScore = (TextView) findViewById(R.id.txtScore);
+        mPlayerOneTV = (TextView) findViewById(R.id.txtPlayer1);
+        mPlayerTwoTV = (TextView) findViewById(R.id.txtPlayer2);
+        mCurrentPlayer = (TextView) findViewById(R.id.txtPlayer);
 
-        txtPlayer.setText(namePlayer1);
-        txtPlayer1.setText(namePlayer1);
-        txtPlayer2.setText(namePlayer2);
+        mCurrentPlayer.setText(namePlayer1);
+        mPlayerOneTV.setText(namePlayer1);
+        mPlayerTwoTV.setText(namePlayer2);
     }
 
+    /**
+     * register on click listeners
+     */
     public void addListenerToButton() {
-        btn1.setOnClickListener(this);
-        btn2.setOnClickListener(this);
-        btn3.setOnClickListener(this);
-        btn4.setOnClickListener(this);
-        btn5.setOnClickListener(this);
-        btn6.setOnClickListener(this);
-        btn7.setOnClickListener(this);
-        btn8.setOnClickListener(this);
-        btn9.setOnClickListener(this);
+        mBtn1.setOnClickListener(this);
+        mBtn2.setOnClickListener(this);
+        mBtn3.setOnClickListener(this);
+        mBtn4.setOnClickListener(this);
+        mBtn5.setOnClickListener(this);
+        mBtn6.setOnClickListener(this);
+        mBtn7.setOnClickListener(this);
+        mBtn8.setOnClickListener(this);
+        mBtn9.setOnClickListener(this);
     }
 
     @Override
@@ -149,18 +155,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkWinner();
     }
 
+    /**
+     * Change the grid to respective x or o based on player
+     * @param selectedBtn
+     */
     private void changeText(Button selectedBtn) {
 
         if(isActivePlayer) {
             selectedBtn.setText("X");
             selectedBtn.setBackgroundColor(Color.parseColor(COLOR_PLAYER_1));
-            txtPlayer.setText(namePlayer2);
-            txtPlayer.setTextColor(Color.parseColor(COLOR_PLAYER_2));
+            mCurrentPlayer.setText(namePlayer2);
+            mCurrentPlayer.setTextColor(Color.parseColor(COLOR_PLAYER_2));
         } else {
             selectedBtn.setText("O");
             selectedBtn.setBackgroundColor(Color.parseColor(COLOR_PLAYER_2));
-            txtPlayer.setText(namePlayer1);
-            txtPlayer.setTextColor(Color.parseColor(COLOR_PLAYER_1));
+            mCurrentPlayer.setText(namePlayer1);
+            mCurrentPlayer.setTextColor(Color.parseColor(COLOR_PLAYER_1));
         }
 
         // will alternate with true and false
@@ -192,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 scorePlayer1++;
             else
                 scorePlayer2++;
-            txtScore.setText(scorePlayer1 + " - " + scorePlayer2);
+            mTextScore.setText(scorePlayer1 + " - " + scorePlayer2);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("The Winner is : " + (!isActivePlayer ? namePlayer1 : namePlayer2) + "!")
@@ -231,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
         }
 
+        // Display a pop up dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Draw")
                 .setMessage("do you want to play again ?")
@@ -254,9 +265,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         clear();
     }
 
+    /**
+     * clear the score and view
+     * @param view
+     */
     public void onReset(View view) {
         clear();
-        txtScore.setText("0 - 0");
+        mTextScore.setText("0 - 0");
         scorePlayer1 = 0;
         scorePlayer2 = 0;
     }
@@ -266,31 +281,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
+    /**
+     * this method helps to clear the fields , background color and table values.
+     */
     public void clear() {
-        btn1.setText(null);
-        btn2.setText(null);
-        btn3.setText(null);
-        btn4.setText(null);
-        btn5.setText(null);
-        btn6.setText(null);
-        btn7.setText(null);
-        btn8.setText(null);
-        btn9.setText(null);
+        mBtn1.setText(null);
+        mBtn2.setText(null);
+        mBtn3.setText(null);
+        mBtn4.setText(null);
+        mBtn5.setText(null);
+        mBtn6.setText(null);
+        mBtn7.setText(null);
+        mBtn8.setText(null);
+        mBtn9.setText(null);
 
-        btn1.setBackgroundColor(Color.parseColor("#ffffff"));
-        btn2.setBackgroundColor(Color.parseColor("#ffffff"));
-        btn3.setBackgroundColor(Color.parseColor("#ffffff"));
-        btn4.setBackgroundColor(Color.parseColor("#ffffff"));
-        btn5.setBackgroundColor(Color.parseColor("#ffffff"));
-        btn6.setBackgroundColor(Color.parseColor("#ffffff"));
-        btn7.setBackgroundColor(Color.parseColor("#ffffff"));
-        btn8.setBackgroundColor(Color.parseColor("#ffffff"));
-        btn9.setBackgroundColor(Color.parseColor("#ffffff"));
+        mBtn1.setBackgroundColor(Color.parseColor("#ffffff"));
+        mBtn2.setBackgroundColor(Color.parseColor("#ffffff"));
+        mBtn3.setBackgroundColor(Color.parseColor("#ffffff"));
+        mBtn4.setBackgroundColor(Color.parseColor("#ffffff"));
+        mBtn5.setBackgroundColor(Color.parseColor("#ffffff"));
+        mBtn6.setBackgroundColor(Color.parseColor("#ffffff"));
+        mBtn7.setBackgroundColor(Color.parseColor("#ffffff"));
+        mBtn8.setBackgroundColor(Color.parseColor("#ffffff"));
+        mBtn9.setBackgroundColor(Color.parseColor("#ffffff"));
 
         for(int i = 0; i < tablePlayer.length; i++)
             tablePlayer[i] = 0;
-        txtPlayer.setText(namePlayer1);
-        txtPlayer.setTextColor(Color.parseColor(COLOR_PLAYER_1));
+        mCurrentPlayer.setText(namePlayer1);
+        mCurrentPlayer.setTextColor(Color.parseColor(COLOR_PLAYER_1));
 
         isActivePlayer = true;
     }

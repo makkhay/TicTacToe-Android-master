@@ -10,30 +10,31 @@ import android.widget.Toast;
 
 public class LoginToGameActivity extends AppCompatActivity {
 
-    private EditText namePlayer1, namePlayer2;
+    private EditText mPlayerOneET, mPlayerTwoET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_to_game);
 
-        namePlayer1 = (EditText) findViewById(R.id.nameplayer1);
-        namePlayer2 = (EditText) findViewById(R.id.nameplayer2);
+        mPlayerOneET = (EditText) findViewById(R.id.nameplayer1);
+        mPlayerTwoET = (EditText) findViewById(R.id.nameplayer2);
     }
 
     public void onPlay(View view) {
-        if(namePlayer1.getText() == null || namePlayer1.getText().toString().trim().isEmpty()) {
+        if(mPlayerOneET.getText() == null || mPlayerOneET.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Please type the name of Player 1", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(namePlayer2.getText() == null || namePlayer2.getText().toString().trim().isEmpty()) {
+        if(mPlayerTwoET.getText() == null || mPlayerTwoET.getText().toString().trim().isEmpty()) {
             Toast.makeText(this, "Please type the name of Player 2", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Send data from one activity to another
         Bundle bundle = new Bundle();
-        bundle.putString("namePlayer1", namePlayer1.getText().toString().trim());
-        bundle.putString("namePlayer2", namePlayer2.getText().toString().trim());
+        bundle.putString("mPlayerOneET", mPlayerOneET.getText().toString().trim());
+        bundle.putString("mPlayerTwoET", mPlayerTwoET.getText().toString().trim());
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
